@@ -1,5 +1,7 @@
 # RST-Auth
 
+**[Documentation site](https://sayedrisat.github.io/rst-auth/)** · [GitHub repository](https://github.com/sayedrisat/rst-auth)
+
 **Complex authentication. Simple methods. Full control. Open source.**
 
 ## Overview

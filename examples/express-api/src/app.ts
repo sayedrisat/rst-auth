@@ -5,6 +5,7 @@ import express, {
   type RequestHandler,
   type Response,
 } from "express";
+import { fileURLToPath } from "node:url";
 import { createAuth, MemoryRefreshTokenStore, AuthError } from "rst-auth";
 import {
   expressAuth,
@@ -83,6 +84,9 @@ export function createExampleApp({
   });
   const app = express();
   app.use(express.json());
+  app.use(
+    express.static(fileURLToPath(new URL("../public/", import.meta.url))),
+  );
 
   async function sendSession(
     user: User,

@@ -15,6 +15,13 @@ describe("example Express API", () => {
     });
   });
 
+  it("serves a browser demo for the package-backed auth flows", async () => {
+    const response = await request(example.app).get("/");
+    expect(response.status).toBe(200);
+    expect(response.text).toContain("RST-Auth");
+    expect(response.text).toContain("Rotate refresh token");
+  });
+
   it("no-role-from-client: rejects a client role and creates no account", async () => {
     const response = await request(example.app)
       .post("/auth/signup")

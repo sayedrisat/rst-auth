@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10151d" />
+    <meta
+      name="description"
+      content="Learn how to build authentication flows with RST-Auth, a modular TypeScript toolkit for Node.js."
+    />
+    <title>RST-Auth Documentation</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="RST-Auth docs home"
+        ><span class="brand-mark">R</span><span>RST-Auth</span
+        ><span class="brand-docs">Docs</span></a
+      >
+      <button
+        class="mobile-menu"
+        id="mobile-menu"
+        aria-expanded="false"
+        aria-controls="sidebar"
+      >
+        Menu
+      </button>
+      <label class="search-box" for="doc-search"
+        ><svg aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="10.8" cy="10.8" r="6.8"></circle>
+          <path d="m16 16 5 5"></path></svg
+        ><input
+          id="doc-search"
+          type="search"
+          placeholder="Search the docs"
+          autocomplete="off"
+        /><kbd>⌘ K</kbd></label
+      >
+      <div class="top-actions">
+        <button
+          class="icon-button"
+          id="theme-toggle"
+          aria-label="Toggle color theme"
+          title="Toggle color theme"
+        >
+          ◐</button
+        ><a class="top-link" href="https://github.com/sayedrisat/rst-auth"
+          >GitHub ↗</a
+        >
+      </div>
+    </header>
+    <div class="layout" id="top">
+      <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+        <div class="sidebar-label">GET STARTED</div>
+        <a class="nav-link active" href="#overview">Overview</a
+        ><a class="nav-link" href="#why">Why RST-Auth?</a
+        ><a class="nav-link" href="#install">Installation</a
+        ><a class="nav-link" href="#quickstart">Quick start</a>
+        <div class="sidebar-label">BUILD AN AUTH FLOW</div>
+        <a class="nav-link" href="#config">Configuration</a
+        ><a class="nav-link" href="#passwords">Passwords</a
+        ><a class="nav-link" href="#access">Access tokens</a
+        ><a class="nav-link" href="#refresh">Refresh tokens</a
+        ><a class="nav-link" href="#express">Express</a
+        ><a class="nav-link" href="#validation">Validation</a
+        ><a class="nav-link" href="#errors">Errors</a
+        ><a class="nav-link" href="#delivery">Cookie or Bearer</a
+        ><a class="nav-link" href="#flow">End-to-end example</a>
+        <div class="sidebar-label">SECURITY &amp; SCOPE</div>
+        <a class="nav-link" href="#responsibilities">App responsibilities</a
+        ><a class="nav-link" href="#limits">Limitations</a
+        ><a class="nav-link" href="#testing">Testing stores</a
+        ><a class="nav-link" href="#contributing">Contributing</a>
+        <div class="sidebar-bottom">
+          <span class="status-dot"></span> v0.1.0 · Alpha<a
+            href="https://github.com/sayedrisat/rst-auth/blob/main/CHANGELOG.md"
+            >Changelog ↗</a
+          >
+        </div>
+      </aside>
+      <main id="content" class="content">
+        <div class="breadcrumbs">
+          <a href="#overview">Docs</a><span>/</span><span>Overview</span>
+        </div>
+        <section class="hero doc-section" id="overview" data-title="Overview">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span> NODE.JS AUTHENTICATION TOOLKIT
+          </div>
+          <h1>
+            Complex authentication.<br /><span
+              >Simple methods. Full control.</span
+            >
+          </h1>
+          <p class="hero-copy">
+            Security building blocks for Node.js apps, with your database,
+            controllers, and business rules still in your hands.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#quickstart">Start building →</a
+            ><a
+              class="button secondary"
+              href="https://github.com/sayedrisat/rst-auth"
+              >View on GitHub ↗</a
+            >
+          </div>
+          <div class="hero-meta">
+            <span>TypeScript</span><i></i><span>ESM</span><i></i
+            ><span>Node.js 22+</span><i></i><span>Express 4 &amp; 5</span>
+          </div>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="why"
+          data-title="Why RST-Auth"
+        >
+          <div class="section-kicker">THE PROBLEM</div>
+          <h2>Keep the security mechanics. Keep ownership of your app.</h2>
+          <p>
+            Authentication has sharp edges: password truncation, token
+            validation, rotation races, stale role claims, and error leaks. Full
+            frameworks can also make choices about users, persistence, and
+            application flows that do not fit every backend.
+          </p>
+          <p>
+            RST-Auth packages reusable mechanics and leaves application-specific
+            work with you. It does not create users, issue database queries,
+            define roles, or dictate API responses.
+          </p>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="feature-icon">01</span>
+              <h3>Security primitives</h3>
+              <p>
+                bcryptjs password hashing, jose access tokens, and opaque
+                rotating refresh tokens.
+              </p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">02</span>
+              <h3>Small adapters</h3>
+              <p>
+                Optional Express 4/5 and Zod integrations around a
+                framework-independent core.
+              </p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">03</span>
+              <h3>Your architecture</h3>
+              <p>
+                Inject configuration and implement your repositories and
+                persistent token store.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="install"
+          data-title="Installation"
+        >
+          <div class="section-kicker">01 · INSTALL</div>
+          <h2>Add RST-Auth to a Node.js project</h2>
+          <p>
+            Requires Node.js 22 or newer. The core package uses ESM; Express and
+            Zod are optional peers.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>Terminal</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>npm install rst-auth
+npm install express zod
+npm install --save-dev @types/express</code></pre>
+          </div>
+          <p>
+            Install only the peers your app uses. The core entry does not load
+            Express or Zod.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="quickstart"
+          data-title="Quick start"
+        >
+          <div class="section-kicker">02 · QUICK START</div>
+          <h2>Create the auth services</h2>
+          <p>
+            Read secrets in your app's config layer and inject them. The library
+            never reads process.env.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>src/auth.ts</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import { createAuth } from "rst-auth";
+
+const secret = process.env.ACCESS_TOKEN_SECRET;
+if (!secret || Buffer.byteLength(secret, "utf8") &lt; 32) {
+  throw new Error("ACCESS_TOKEN_SECRET must be at least 32 bytes");
+}
+
+export const auth = createAuth({
+  accessToken: {
+    key: new TextEncoder().encode(secret),
+    issuer: "my-service",
+    audience: "my-api",
+  },
+});</code></pre>
+          </div>
+          <div class="callout warning">
+            <strong>Production:</strong> set mode to production, provide issuer
+            and audience, use a strong key, and keep access tokens short-lived.
+          </div>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="config"
+          data-title="Configuration"
+        >
+          <div class="section-kicker">CONFIGURATION REFERENCE</div>
+          <h2>Settings are validated when the service is created</h2>
+          <div class="responsibility-grid">
+            <div>
+              <strong>password.workFactor</strong
+              ><span
+                >Default 12; integer from 4 through 31. Higher costs use more
+                CPU.</span
+              >
+            </div>
+            <div>
+              <strong>accessToken.key</strong
+              ><span
+                >Required. HMAC keys need at least 32 bytes; asymmetric keys are
+                supported.</span
+              >
+            </div>
+            <div>
+              <strong>algorithm / algorithms</strong
+              ><span
+                >HS256 by default. Verification algorithms are explicitly
+                allowlisted.</span
+              >
+            </div>
+            <div>
+              <strong>issuer / audience</strong
+              ><span
+                >Optional in development; required with production mode.</span
+              >
+            </div>
+            <div>
+              <strong>expiresInSeconds</strong
+              ><span
+                >Access token lifetime defaults to 900 seconds; production caps
+                it at one hour.</span
+              >
+            </div>
+            <div>
+              <strong>refreshTokenTtl / absoluteLifetime</strong
+              ><span
+                >Both required when refresh is configured; rotation respects the
+                family lifetime cap.</span
+              >
+            </div>
+          </div>
+          <p>
+            Configuration is injected as a JavaScript object. The library does
+            not read environment variables. See the
+            <a
+              href="https://github.com/sayedrisat/rst-auth/blob/main/docs/configuration.md"
+              >full configuration guide</a
+            >.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>optional subpaths</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>rst-auth           core services and types
+rst-auth/express  Express middleware and cookie helpers
+rst-auth/zod      Zod validation adapter
+rst-auth/testing  refresh-store conformance suite</code></pre>
+          </div>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="passwords"
+          data-title="Passwords"
+        >
+          <div class="section-kicker">03 · PASSWORDS</div>
+          <h2>Hash passwords before storing them</h2>
+          <p>
+            Store only the hash. Compare passwords through the service during
+            login, and do a dummy comparison when an account is absent.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>signup and login</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>const passwordHash = await auth.password.hash(password);
+await users.create({ email, passwordHash });
+
+const user = await users.findByEmail(email);
+if (!user) {
+  await auth.password.verifyDummy(password);
+  throw new AuthError("UNAUTHORIZED", "Invalid email or password");
+}
+if (!(await auth.password.verify(password, user.passwordHash))) {
+  throw new AuthError("UNAUTHORIZED", "Invalid email or password");
+}</code></pre>
+          </div>
+          <ul class="detail-list">
+            <li>
+              Passwords over 72 UTF-8 bytes are rejected because bcrypt
+              truncates longer inputs.
+            </li>
+            <li>
+              The default work factor is 12. Benchmark on deployment hardware.
+            </li>
+            <li>
+              Dummy verification reduces account-enumeration timing differences;
+              it does not guarantee identical response times.
+            </li>
+          </ul>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="access"
+          data-title="Access tokens"
+        >
+          <div class="section-kicker">04 · ACCESS TOKENS</div>
+          <h2>Sign and verify access tokens</h2>
+          <p>
+            Tokens use jose. The configured algorithm allowlist stays pinned; a
+            token header never selects the verification algorithm.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>session controller</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>const accessToken = await auth.tokens.generateAccessToken({
+  sub: user.id,
+  role: user.role,
+});
+
+const claims = await auth.tokens.verifyAccessToken(accessToken);
+// Signature, expiry, configured issuer/audience,
+// required claims, and access-token type are verified.</code></pre>
+          </div>
+          <p>
+            JWT claims are visible to their holder. Do not put secrets in them.
+            Roles can become stale; use identity lookup or revocation checks
+            when the app needs current account state.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="refresh"
+          data-title="Refresh tokens"
+        >
+          <div class="section-kicker">05 · REFRESH TOKENS</div>
+          <h2>Rotate refresh tokens with server-side state</h2>
+          <p>
+            Refresh tokens are opaque random values. The store keeps SHA-256
+            hashes, not raw tokens. Rotation consumes the old token and creates
+            a successor in the same family.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>auth.ts</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import { createAuth, MemoryRefreshTokenStore } from "rst-auth";
+
+const auth = createAuth({
+  accessToken: { key },
+  refreshToken: {
+    store: new MemoryRefreshTokenStore(), // local demo only
+    refreshTokenTtl: 60 * 60 * 24 * 7,
+    absoluteLifetime: 60 * 60 * 24 * 30,
+  },
+});
+
+const pair = await auth.refresh!.issue({ subject: user.id });
+const rotated = await auth.refresh!.rotate(pair.refreshToken);</code></pre>
+          </div>
+          <div class="callout danger">
+            <strong>Production requirement:</strong> implement a persistent
+            shared RefreshTokenStore with atomic consume. The built-in memory
+            store loses state on restart and is unsafe across instances.
+          </div>
+          <p>
+            Reusing a consumed token revokes its entire family. Unknown,
+            expired, revoked, and reused tokens never produce a new pair.
+            Rotation cannot extend a family past its absolute lifetime.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="express"
+          data-title="Express middleware"
+        >
+          <div class="section-kicker">06 · EXPRESS</div>
+          <h2>Protect routes; keep your controllers</h2>
+          <p>
+            The adapter supports Express 4 and 5, parses Bearer headers
+            strictly, and puts verified claims on req.auth.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>routes.ts</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import { expressAuth } from "rst-auth/express";
+
+const middleware = expressAuth(auth);
+app.get("/me", middleware.authenticate(), getProfile);
+app.get(
+  "/admin",
+  middleware.authenticate(),
+  middleware.authorize({ roles: ["admin"] }),
+  getAdminDashboard,
+);
+app.use(middleware.errorHandler());</code></pre>
+          </div>
+          <p>
+            No role data means deny. Missing or invalid auth returns 401; an
+            authenticated user without a required role receives 403. Optional
+            auth uses authenticate({ required: false }).
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="validation"
+          data-title="Validation"
+        >
+          <div class="section-kicker">07 · VALIDATION</div>
+          <h2>Keep parsed input explicit</h2>
+          <div class="code-card">
+            <div class="code-head">
+              <span>routes.ts</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import { z } from "zod";
+import { zodAdapter } from "rst-auth/zod";
+
+const middleware = expressAuth(auth, { validator: zodAdapter() });
+const itemSchema = z.object({ name: z.string().min(1) });
+app.post("/items", middleware.validate({ body: itemSchema }), createItem);</code></pre>
+          </div>
+          <p>
+            Parsed values go to req.validated; request body, params, and query
+            are not silently replaced. Core validation uses an adapter, so Zod
+            is optional.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="errors"
+          data-title="Errors"
+        >
+          <div class="section-kicker">08 · ERRORS</div>
+          <h2>Stable codes. Safe client responses.</h2>
+          <p>
+            AuthError includes a code, developer message, safe public message,
+            status, and optional cause. Express emits safe fields by default.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>custom formatter</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>const middleware = expressAuth(auth, {
+  errorFormatter: (error) =&gt; ({
+    status: error.status,
+    body: { error: { code: error.code, message: error.message } },
+  }),
+});</code></pre>
+          </div>
+          <p>
+            Never return passwords, hashes, secrets, tokens, stack traces, or
+            raw internal errors to clients.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="delivery"
+          data-title="Cookie or Bearer"
+        >
+          <div class="section-kicker">TOKEN DELIVERY</div>
+          <h2>Choose how your app delivers tokens</h2>
+          <p>
+            For an API client, return the access token and send it as an
+            Authorization Bearer header. Keep refresh tokens out of URLs. For
+            browser apps, the Express adapter can set an HttpOnly, Secure,
+            SameSite cookie.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>cookie helpers</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import {
+  setRefreshTokenCookie,
+  fromCookie,
+} from "rst-auth/express";
+
+setRefreshTokenCookie(res, refreshToken); // HttpOnly, Secure, SameSite=Lax
+const token = await fromCookie("refreshToken")(req);</code></pre>
+          </div>
+          <div class="callout warning">
+            <strong>Trade-off:</strong> cookies reduce direct JavaScript access
+            to refresh tokens, but browsers attach them automatically, so your
+            app needs CSRF protection and a deliberate SameSite/origin policy.
+            Bearer tokens require explicit attachment; protect browser storage
+            against XSS.
+          </div>
+          <p>
+            <a
+              href="https://github.com/sayedrisat/rst-auth/blob/main/docs/cookies-vs-bearer.md"
+              >Read the cookie vs Bearer guide.</a
+            >
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="flow"
+          data-title="End-to-end example"
+        >
+          <div class="section-kicker">09 · END-TO-END</div>
+          <h2>Your app owns account creation</h2>
+          <p>
+            The example's repository owns uniqueness, role assignment, and
+            storage. Signup rejects unknown fields such as client-supplied role.
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>signup controller</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>async function signup(req, res) {
+  const { email, password } = req.validated.body;
+  const passwordHash = await auth.password.hash(password);
+  const user = await users.create({ email, passwordHash, role: "user" });
+  const accessToken = await auth.tokens.generateAccessToken({
+    sub: user.id,
+    role: user.role,
+  });
+  const refresh = await auth.refresh.issue({ subject: user.id });
+  res.status(201).json({ user: { id: user.id }, accessToken,
+    refreshToken: refresh.refreshToken });
+}</code></pre>
+          </div>
+          <div class="callout warning">
+            <strong>Never trust a role from signup input.</strong> Reject or
+            ignore privilege fields; assign roles using server-owned policy.
+          </div>
+          <p>
+            Run the
+            <a
+              href="https://github.com/sayedrisat/rst-auth/tree/main/examples/express-api"
+              >Express API example</a
+            >
+            to try signup, login, protected routes, refresh replay detection,
+            and logout using the packed package.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="responsibilities"
+          data-title="Security responsibilities"
+        >
+          <div class="section-kicker">10 · SECURITY BOUNDARIES</div>
+          <h2>What your application still handles</h2>
+          <p>Configure controls that fit your app and deployment.</p>
+          <div class="responsibility-grid">
+            <div>
+              <strong>CORS</strong
+              ><span
+                >Choose trusted browser origins and credential policy.</span
+              >
+            </div>
+            <div>
+              <strong>Rate limiting</strong
+              ><span>Protect signup, login, and recovery endpoints.</span>
+            </div>
+            <div>
+              <strong>CSRF</strong
+              ><span>Cookie-based refresh needs an anti-CSRF strategy.</span>
+            </div>
+            <div>
+              <strong>Account lifecycle</strong
+              ><span
+                >Build lockout, password reset, and email verification.</span
+              >
+            </div>
+            <div>
+              <strong>Authorization freshness</strong
+              ><span
+                >Check current permissions when token roles may be stale.</span
+              >
+            </div>
+            <div>
+              <strong>Operations</strong
+              ><span
+                >Store secrets safely and persist refresh state
+                atomically.</span
+              >
+            </div>
+          </div>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="limits"
+          data-title="Limitations"
+        >
+          <div class="section-kicker">11 · LIMITATIONS</div>
+          <h2>Know what this package does not provide</h2>
+          <ul class="detail-list">
+            <li>
+              Alpha software; APIs and policies may change before a stable
+              release.
+            </li>
+            <li>
+              No production database, user model, or persistent refresh store is
+              bundled.
+            </li>
+            <li>
+              No hosted identity provider, OAuth, MFA, passkeys, email
+              verification, password reset, lockout, or rate limiter.
+            </li>
+            <li>
+              Access tokens are stateless unless a revocation hook is
+              configured; deleting a user alone does not invalidate issued
+              tokens.
+            </li>
+            <li>
+              MemoryRefreshTokenStore is process-local and only for tests and
+              local examples.
+            </li>
+            <li>
+              Tests are not a security audit and cannot prove every
+              distributed-store failure mode.
+            </li>
+          </ul>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="testing"
+          data-title="Testing refresh stores"
+        >
+          <div class="section-kicker">12 · TESTING</div>
+          <h2>Check your refresh store contract</h2>
+          <p>
+            Consume must be atomic across concurrent requests and app instances.
+            Register the framework-agnostic conformance suite:
+          </p>
+          <div class="code-card">
+            <div class="code-head">
+              <span>store.test.ts</span
+              ><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>import { registerRefreshTokenStoreConformanceTests } from "rst-auth/testing";
+
+registerRefreshTokenStoreConformanceTests(
+  { test: (name, fn) =&gt; it(name, fn) },
+  () =&gt; createFreshDatabaseStore(),
+);</code></pre>
+          </div>
+          <p>
+            The suite checks rotation, replay, family revocation, expiry,
+            revocation, and one-winner concurrent consume. It does not replace
+            review of the database's transaction and consistency guarantees.
+          </p>
+        </section>
+        <section
+          class="section-block doc-section"
+          id="contributing"
+          data-title="Contributing"
+        >
+          <div class="section-kicker">13 · PROJECT</div>
+          <h2>Build with us</h2>
+          <p>
+            Open-source contributions are welcome. Include focused tests for
+            behavior changes, keep docs accurate to the API, and review security
+            consequences.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="button primary"
+              href="https://github.com/sayedrisat/rst-auth/blob/main/CONTRIBUTING.md"
+              >Contribution guide ↗</a
+            ><a
+              class="button secondary"
+              href="https://github.com/sayedrisat/rst-auth/issues"
+              >Report an issue ↗</a
+            >
+          </div>
+        </section>
+        <footer class="site-footer">
+          <span>RST-Auth · MIT · Alpha</span
+          ><span
+            >Built for developers who want control over their auth stack.</span
+          ><a href="#top">Back to top ↑</a>
+        </footer>
+      </main>
+      <aside class="toc" aria-label="On this page">
+        <div class="toc-title">ON THIS PAGE</div>
+        <a href="#why">Why RST-Auth?</a><a href="#install">Installation</a
+        ><a href="#quickstart">Quick start</a><a href="#flow">End-to-end</a
+        ><a href="#responsibilities">Security</a
+        ><a href="#limits">Limitations</a>
+      </aside>
+    </div>
+    <div class="search-empty" id="search-empty" hidden>
+      No matching section. Try refresh, password, or Express.
+    </div>
+  </body>
+</html>

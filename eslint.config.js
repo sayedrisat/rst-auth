@@ -25,4 +25,10 @@ export default tseslint.config(
       "@typescript-eslint/no-explicit-any": "error",
     },
   },
+  {
+    files: ["website/**/*.js"],
+    languageOptions: {
+      globals: { ...globals.browser },
+    },
+  },
 );

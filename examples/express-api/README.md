@@ -22,6 +22,8 @@ To start the server, supply an ephemeral random secret:
 ACCESS_TOKEN_SECRET="$(openssl rand -hex 32)" npm --prefix examples/express-api run dev
 ```
 
+Open [http://localhost:3000](http://localhost:3000) to use the browser demo. Sign up, call `/me` and `/admin`, rotate a refresh token, replay the old token to see family revocation, then try logout. The page keeps tokens in memory only; reloading clears its session.
+
 Endpoints:
 
 - `POST /auth/signup` and `POST /auth/login` return access and refresh tokens in JSON.
