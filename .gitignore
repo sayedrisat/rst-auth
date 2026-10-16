@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+examples/express-api/node_modules/
+examples/express-api/rst-auth-*.tgz
+examples/express-api/dist/
+examples/express-api/coverage/
+/AGENTS.md
+/COMPETITIVE_ANALYSIS.md

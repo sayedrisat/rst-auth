@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible defect in rst-auth.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: For suspected security vulnerabilities, do not create a public issue. Follow SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Package version and Node version
+      placeholder: "rst-auth 0.1.0, Node 22.x"
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Remove all tokens, passwords, keys, and personal data.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
