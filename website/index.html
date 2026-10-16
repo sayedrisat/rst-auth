@@ -679,22 +679,84 @@ registerRefreshTokenStoreConformanceTests(
           id="contributing"
           data-title="Contributing"
         >
-          <div class="section-kicker">13 · PROJECT</div>
-          <h2>Build with us</h2>
+          <div class="section-kicker">13 · COMMUNITY</div>
+          <h2>Contribute to RST-Auth</h2>
           <p>
-            Open-source contributions are welcome. Include focused tests for
-            behavior changes, keep docs accurate to the API, and review security
-            consequences.
+            Contributions are welcome, from a documentation fix to a security
+            improvement. Start with an issue for larger changes so the scope and
+            expected behavior are clear before you invest time.
           </p>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="feature-icon">01 · PICK A TASK</span>
+              <h3>Find a focused change</h3>
+              <p>
+                Check open issues first. For a new feature or a change to
+                security behavior, open an issue describing the problem and
+                proposed behavior.
+              </p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">02 · SET UP</span>
+              <h3>Run the project locally</h3>
+              <p>
+                Use Node.js 22 or 24 and npm. Fork the repository, create a
+                branch, and install dependencies from the lockfile.
+              </p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">03 · KEEP SCOPE</span>
+              <h3>Preserve app ownership</h3>
+              <p>
+                User records, database queries, roles, routes, and business
+                rules belong to the application. Never trust a client-supplied
+                role during signup.
+              </p>
+            </article>
+          </div>
+          <div class="code-card">
+            <div class="code-head">
+              <span>local checks</span><button class="copy-button">Copy</button>
+            </div>
+            <pre><code>npm ci
+npm run build
+npm test
+npm run lint
+npm run typecheck
+npm run format:check</code></pre>
+          </div>
+          <h3>Before opening a pull request</h3>
+          <ul>
+            <li>
+              Add or update focused tests for behavior changes. Security claims
+              in the docs should map to tests in <code>docs/claims.md</code>.
+            </li>
+            <li>
+              Update the documentation when public behavior or configuration
+              changes; keep examples consistent with the package API.
+            </li>
+            <li>
+              Describe the motivation, implementation, tests, security impact,
+              and compatibility impact in the pull request.
+            </li>
+            <li>
+              Follow the project Code of Conduct. Do not include real secrets,
+              tokens, or personal data in commits or issue reports.
+            </li>
+          </ul>
           <div class="hero-actions">
             <a
               class="button primary"
               href="https://github.com/sayedrisat/rst-auth/blob/main/CONTRIBUTING.md"
-              >Contribution guide ↗</a
+              >Full contribution guide ↗</a
             ><a
               class="button secondary"
               href="https://github.com/sayedrisat/rst-auth/issues"
-              >Report an issue ↗</a
+              >Browse or report issues ↗</a
+            ><a
+              class="button secondary"
+              href="https://github.com/sayedrisat/rst-auth/blob/main/CODE_OF_CONDUCT.md"
+              >Code of Conduct ↗</a
             >
           </div>
         </section>
