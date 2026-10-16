@@ -534,6 +534,128 @@ const token = await fromCookie("refreshToken")(req);</code></pre>
             The example's repository owns uniqueness, role assignment, and
             storage. Signup rejects unknown fields such as client-supplied role.
           </p>
+          <figure
+            class="auth-flow-diagram"
+            aria-labelledby="auth-flow-title auth-flow-caption"
+          >
+            <svg
+              viewBox="0 0 1000 410"
+              role="img"
+              aria-labelledby="auth-flow-title auth-flow-description"
+            >
+              <title id="auth-flow-title">
+                How an application uses RST-Auth
+              </title>
+              <desc id="auth-flow-description">
+                A client sends signup, login, and protected requests to the app.
+                The app owns controllers and user database queries. It calls
+                RST-Auth for password and access-token operations. RST-Auth
+                calls the app's atomic refresh-token store during rotation.
+              </desc>
+              <defs>
+                <marker
+                  id="flow-arrow"
+                  markerWidth="10"
+                  markerHeight="10"
+                  refX="8"
+                  refY="5"
+                  orient="auto"
+                >
+                  <path d="M0 0 10 5 0 10z" fill="currentColor"></path>
+                </marker>
+                <marker
+                  id="flow-arrow-start"
+                  markerWidth="10"
+                  markerHeight="10"
+                  refX="2"
+                  refY="5"
+                  orient="auto"
+                >
+                  <path d="M10 0 0 5 10 10z" fill="currentColor"></path>
+                </marker>
+              </defs>
+              <path
+                class="flow-line"
+                d="M220 112h110"
+                marker-end="url(#flow-arrow)"
+              ></path>
+              <path
+                class="flow-line"
+                d="M570 112h110"
+                marker-end="url(#flow-arrow)"
+              ></path>
+              <path
+                class="flow-line flow-line-dashed"
+                d="M450 166v95"
+                marker-start="url(#flow-arrow-start)"
+                marker-end="url(#flow-arrow)"
+              ></path>
+              <path
+                class="flow-line flow-line-dashed"
+                d="M790 166v95"
+                marker-start="url(#flow-arrow-start)"
+                marker-end="url(#flow-arrow)"
+              ></path>
+
+              <g class="flow-node flow-node-client">
+                <rect x="20" y="58" width="200" height="108" rx="16"></rect>
+                <text class="flow-kicker" x="42" y="88">01 · CLIENT</text>
+                <text class="flow-title" x="42" y="119">Browser or API</text>
+                <text class="flow-subtitle" x="42" y="143">
+                  signup · login · requests
+                </text>
+              </g>
+              <g class="flow-node flow-node-app">
+                <rect x="330" y="58" width="240" height="108" rx="16"></rect>
+                <text class="flow-kicker" x="352" y="88">02 · YOUR APP</text>
+                <text class="flow-title" x="352" y="119">
+                  Routes + controllers
+                </text>
+                <text class="flow-subtitle" x="352" y="143">
+                  users · roles · responses
+                </text>
+              </g>
+              <g class="flow-node flow-node-auth">
+                <rect x="680" y="58" width="280" height="108" rx="16"></rect>
+                <text class="flow-kicker" x="702" y="88">03 · RST-AUTH</text>
+                <text class="flow-title" x="702" y="119">
+                  Security building blocks
+                </text>
+                <text class="flow-subtitle" x="702" y="143">
+                  bcryptjs · jose · refresh logic
+                </text>
+              </g>
+              <g class="flow-node flow-node-data">
+                <rect x="330" y="261" width="240" height="108" rx="16"></rect>
+                <text class="flow-kicker" x="352" y="291">APP-OWNED DATA</text>
+                <text class="flow-title" x="352" y="322">User database</text>
+                <text class="flow-subtitle" x="352" y="346">
+                  app queries and schema
+                </text>
+              </g>
+              <g class="flow-node flow-node-store">
+                <rect x="680" y="261" width="280" height="108" rx="16"></rect>
+                <text class="flow-kicker" x="702" y="291">
+                  APP-IMPLEMENTED STORE
+                </text>
+                <text class="flow-title" x="702" y="322">
+                  RefreshTokenStore
+                </text>
+                <text class="flow-subtitle" x="702" y="346">
+                  shared · persistent · atomic
+                </text>
+              </g>
+              <text class="flow-label" x="220" y="92">HTTPS</text>
+              <text class="flow-label" x="580" y="92">API calls</text>
+              <text class="flow-label" x="456" y="227">find / save</text>
+              <text class="flow-label" x="797" y="227">consume / rotate</text>
+            </svg>
+            <figcaption id="auth-flow-caption">
+              The app owns users and database queries. RST-Auth provides
+              password and token operations; your store supplies durable, atomic
+              refresh-token state.
+            </figcaption>
+          </figure>
           <div class="code-card">
             <div class="code-head">
               <span>signup controller</span

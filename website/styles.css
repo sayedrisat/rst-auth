@@ -475,6 +475,85 @@ pre code {
   color: var(--muted);
   font-size: 12px;
 }
+.auth-flow-diagram {
+  margin: 22px 0 24px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse at 85% 10%, #29466a44, transparent 40%),
+    var(--panel);
+}
+.auth-flow-diagram svg {
+  display: block;
+  width: 100%;
+  min-width: 740px;
+  padding: 16px;
+  color: var(--accent);
+}
+.flow-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  opacity: 0.8;
+}
+.flow-line-dashed {
+  stroke-dasharray: 6 6;
+  color: var(--green);
+}
+.flow-node rect {
+  fill: var(--panel-2);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.flow-node-client rect {
+  stroke: var(--accent);
+}
+.flow-node-app rect {
+  stroke: #b28df5;
+}
+.flow-node-auth rect {
+  stroke: var(--green);
+}
+.flow-node-data rect,
+.flow-node-store rect {
+  stroke: color-mix(in srgb, var(--green) 65%, var(--line));
+}
+.flow-kicker {
+  fill: var(--accent-strong);
+  font:
+    750 11px ui-sans-serif,
+    system-ui,
+    sans-serif;
+  letter-spacing: 1.1px;
+}
+.flow-title {
+  fill: var(--text);
+  font:
+    700 17px ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+.flow-subtitle {
+  fill: var(--muted);
+  font:
+    12px ui-sans-serif,
+    system-ui,
+    sans-serif;
+}
+.flow-label {
+  fill: var(--muted);
+  font:
+    650 11px ui-sans-serif,
+    system-ui,
+    sans-serif;
+  text-anchor: middle;
+}
+.auth-flow-diagram figcaption {
+  padding: 0 19px 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
 .toc {
   position: sticky;
   top: 92px;

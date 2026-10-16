@@ -1,8 +1,71 @@
 # RST-Auth
 
-**[Documentation site](https://sayedrisat.github.io/rst-auth/)** · [GitHub repository](https://github.com/sayedrisat/rst-auth)
+<p align="center">
+  <a href="https://www.npmjs.com/package/rst-auth"><img alt="npm version" src="https://img.shields.io/npm/v/rst-auth?color=4c8bf5&label=npm"></a>
+  <a href="https://github.com/sayedrisat/rst-auth/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/sayedrisat/rst-auth/ci.yml?branch=main&label=CI"></a>
+  <img alt="Node.js 22+" src="https://img.shields.io/badge/Node.js-22%2B-43853d">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+</p>
 
-**Complex authentication. Simple methods. Full control. Open source.**
+<p align="center">
+  <a href="https://sayedrisat.github.io/rst-auth/">Documentation</a> ·
+  <a href="https://github.com/sayedrisat/rst-auth">GitHub</a> ·
+  <a href="https://www.npmjs.com/package/rst-auth">npm</a> ·
+  <a href="examples/express-api/">Runnable Express example</a>
+</p>
+
+> **Complex authentication. Simple methods. Full control. Open source.**
+
+RST-Auth is a small set of authentication building blocks for Node.js. It handles reusable security mechanics; **your app keeps its users, database, routes, business rules, and API responses.**
+
+| Your app owns                                        | RST-Auth provides                                          |
+| ---------------------------------------------------- | ---------------------------------------------------------- |
+| User records, DB queries, signup/login controllers   | Password hashing and verification with `bcryptjs`          |
+| Roles, permissions, and business decisions           | Signed access tokens and optional Express middleware       |
+| API response shapes, frontend, and account lifecycle | Stateful refresh rotation through your `RefreshTokenStore` |
+
+> **Project status:** `0.1.0` alpha. The API may change. This project is not a security audit or a claim of production readiness.
+
+## Authentication flow
+
+This overview shows where the package fits. The application connects its own user repository and persistent refresh-token store; RST-Auth does not query the user database.
+
+```mermaid
+flowchart LR
+  client[Browser or API client]
+  app[Your app<br/>routes, controllers, policy]
+  auth[RST-Auth<br/>bcryptjs · jose · refresh service]
+  users[(Your user database)]
+  store[(Your atomic RefreshTokenStore)]
+
+  client -->|signup / login| app
+  app <-->|lookup user · save password hash| users
+  app -->|hash / verify · sign access token| auth
+  auth -->|opaque token hash · atomic consume| store
+  auth -->|access token + refresh token result| app
+  app -->|Bearer token or HttpOnly cookie| client
+  client -->|protected request| app
+  app -->|verify access token| auth
+```
+
+During refresh, the store atomically consumes the presented token hash. A successful rotation issues a successor in the same family; replay revokes that family. See the [end-to-end flow in the docs](https://sayedrisat.github.io/rst-auth/#flow) for the walkthrough and token-delivery trade-offs.
+
+<details>
+<summary>Contents</summary>
+
+- [Overview and features](#overview)
+- [Install](#install)
+- [Minimal setup](#minimal-setup)
+- [Passwords](#passwords)
+- [Access tokens](#access-tokens)
+- [Refresh tokens](#refresh-tokens)
+- [Express middleware and validation](#express-middleware)
+- [Configuration](#configuration-reference)
+- [Database integration and limitations](#database-integration-model)
+- [Testing and contributing](#testing)
+- [Comparison](#comparison)
+
+</details>
 
 ## Overview
 
