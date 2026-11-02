@@ -26,6 +26,8 @@ RST-Auth is a small set of authentication building blocks for Node.js. It handle
 
 > **Project status:** `0.1.0` alpha. The API may change. This project is not a security audit or a claim of production readiness.
 
+This README describes the checked-in source. The npm release can differ from this branch; compare `package.json` with `npm view rst-auth version` when choosing an integration target. Do not assume an API from a newer package release exists in this checkout.
+
 ## Authentication flow
 
 This overview shows where the package fits. The application connects its own user repository and persistent refresh-token store; RST-Auth does not query the user database.
@@ -236,6 +238,20 @@ The package ships declarations and strict public types. `req.auth` and `req.vali
 ## Database integration model
 
 The toolkit does not create a user table or issue database queries. Your repository/controller code stores password hashes and looks up users. Refresh support uses the `RefreshTokenStore` interface; implement it with your own persistence and atomic compare-and-swap operation, then run the `rst-auth/testing` conformance suite against it. See [installation](docs/installation.md#database-integration-model) and [refresh tokens](docs/refresh-tokens.md).
+
+## Implementation map
+
+| Area                                  | Source and contract                                                                           |
+| ------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Configuration and service composition | [`src/config.ts`](src/config.ts), [`src/index.ts`](src/index.ts)                              |
+| Password hashing and access tokens    | [`src/password.ts`](src/password.ts), [`src/tokens.ts`](src/tokens.ts)                        |
+| Stateful refresh lifecycle            | [`src/refresh.ts`](src/refresh.ts), [`src/refresh-store.ts`](src/refresh-store.ts)            |
+| Local reference store                 | [`src/memory-refresh-token-store.ts`](src/memory-refresh-token-store.ts); tests/examples only |
+| Express integration                   | [`src/express/`](src/express/)                                                                |
+| Store conformance checks              | [`src/testing/`](src/testing/), imported through `rst-auth/testing`                           |
+| Feature evidence                      | [`docs/claims.md`](docs/claims.md), [`test/`](test/)                                          |
+
+The core accepts configuration through `createAuth()` and does not load `.env` files. Keep signing material in the consuming application's server-side environment or secret manager. Browser bundles must not contain signing keys. The runnable [Express example](examples/express-api/) documents the application-owned boundary.
 
 ## Limitations
 
